@@ -1,0 +1,36 @@
+import sys
+import paramiko
+""" Password less connectivity implies key based authentication
+Please edit variable key_path below and specify the path for private key """
+
+key_path="C:\\Users\\shubham Joshi\\Desktop\\selabs-keypair.pem"
+k = paramiko.RSAKey.from_private_key_file(key_path)
+
+# Check if user has supplied an argument along with script
+if len(sys.argv)<2:
+        print("Please refer below usage info:")
+        print("Correct Usage : connect.py 10.10.64.1,10.10.64.3,10.10.64.6")
+else:
+# Extract hostname/IPaddresses from comma separated argument and store it into a list
+        hosts=(sys.argv[1].split(','))
+# Give user a prompt for entering command
+        command=input('>')
+# Iterate through each host
+        for host in hosts:
+                ssh=paramiko.SSHClient()
+                ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+                try:
+                        ssh.connect(host,username='ec2-user',pkey=k)
+                except TimeoutError:
+                        print("Connection Error!")
+                except:
+                        print("Unexpected error")
+                else:
+                        print("Connected to server " + host)
+                        print("Executing command ...")
+                        stdin,stdout,stderr=ssh.exec_command(command)
+                        if stdout.channel.recv_exit_status()!=0:
+                                print(stderr.read().decode('utf-8'))
+                        else:
+                                print(stdout.read().decode('utf-8'))
+                        ssh.close()
