@@ -1,0 +1,47 @@
+Solution to assignment 3
+
+Monolithic java application stack implies we have a single server that is hosting all the services Apache Web server, apache tomcat application server, active MQ and databases oracle and mongodb.
+
+Services we will use to make highly available application stack/infrastructure in the cloud --- Elastic compute Cloud EC2, Elastic load balancer, autoscaling, Dynamodb, S3, Elasticache, SQS, RDS, Aws Database migration service, AWS Datapipeline.
+
+Solution to migrate it cloud --
+
+1. Create a VPC in the nearest region to have minimum latency.
+
+2. Create subnets in the VPC.
+
+3. Decide how to access the cloud infrastructure either VPN or publicly accessible. Create VPN Gateway or Internet gateway accordingly.
+
+4. Backup important files specific to web application running on tomcat and apache web server. This step includes backing up directories such as /var/www/html and /usr/share/tomcat/ and other important web server configuration files in other directories.
+
+5. Export MongoDB data to a text file, in tab separated format tsv, using mongoexport.
+
+6. Upload that file to S3.
+
+7. Import this data, in S3, to DynamoDB using AWS Data Pipeline. Amazon DynamoDB is a fast and flexible NoSQL database service for all applications that need consistent, single-digit millisecond latency at any scale.
+
+8. Regarding migrating oracle database, we can use a fairly new service from aws 'AWS Database Migration Service' to migrate oracle database to RDS. or we can use utilities such as Data Pump Export for unloading data and metadata into a set of operating system files called a dump file set. This dump file set can be imported by the Data Pump Import utility to RDS. We should consider opting for provisioned IOPS and multi-AZ deployment for high availablity and disaster recovery.
+
+9. Regarding migrating apache tomcat, we should backup the configuration files and the java web application and transfer it to an EC2 instance securely over network. We should install apache tomcat in the newly launched EC2 instance and configure it by replacing the default configuration files with the backed up configuration files. Also we should deploy backed up java web application. We should configure the application to use RDS Database instance and Dynamodb.
+
+10.create a Golden AMI from the above EC2 instance and then terminate the instance.
+
+11. Create an IAM role of service type EC2 that allows access to services like Dyanmodb, SQS and other AWS services. Also create a security group that allows access to RDS instances.
+
+11 create autoscaling launch configuration and specify the above AMI, the appropriate type of EC2 instance, IAM ROLE and security group.
+
+12 create an Elastic Load balancer.
+
+13. We will create an autoscaling group and specify the above created launch configuration, and specify at least 2 EC2 instances in different availablity zones for high availability and we will also apply dynamic scaling policy that launches and terminates instances based on certain metrics such as high and low cpu utilization alarms. We will configure it to receive traffic from loadbalancer.
+
+
+13. Also to store session data we will use Elasti cache that supports Redis or memcached in memory engines.
+
+14. In place of Active MQ we will use AWS Simple Queue service. AWS SQS is a fast, reliable, scalable, fully managed message queuing service.
+
+
+
+
+
+
+
