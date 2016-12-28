@@ -35,7 +35,7 @@ Solution to migrate it cloud --
 13. We will create an autoscaling group and specify the above created launch configuration, and specify at least 2 EC2 instances in different availablity zones for high availability and we will also apply dynamic scaling policy that launches and terminates instances based on certain metrics such as high and low cpu utilization alarms. We will configure it to receive traffic from loadbalancer.
 
 
-13. Also to store session data we will use Elasti cache that supports Redis or memcached in memory engines.
+13. Also to store session data we can use Elasti cache that supports Redis or memcached in-memory/caching engines.
 
 14. In place of Active MQ we will use AWS Simple Queue service. AWS SQS is a fast, reliable, scalable, fully managed message queuing service.
 
