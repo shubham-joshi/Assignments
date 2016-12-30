@@ -1,10 +1,12 @@
 import sys
 import paramiko
 """ Password less connectivity implies key based authentication
-Please edit variable key_path below and specify the path for private key """
+Please edit variables key_path and user below and specify the path for private key and the user """
 
 key_path="C:\\Users\\shubham Joshi\\Desktop\\selabs-keypair.pem"
+user='ec2-user'
 k = paramiko.RSAKey.from_private_key_file(key_path)
+
 
 # Check if user has supplied an argument along with script
 if len(sys.argv)<2:
@@ -20,7 +22,7 @@ else:
                 ssh=paramiko.SSHClient()
                 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
                 try:
-                        ssh.connect(host,username='ec2-user',pkey=k)
+                        ssh.connect(host,username=user,pkey=k)
                 except TimeoutError:
                         print("Connection Error!")
                 except:
