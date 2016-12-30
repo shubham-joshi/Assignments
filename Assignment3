@@ -24,7 +24,7 @@ Solution to migrate it cloud --
 
 9. Regarding migrating apache tomcat, we should backup the configuration files and the java web application and transfer it to an EC2 instance securely over network. We should install apache tomcat in the newly launched EC2 instance and configure it by replacing the default configuration files with the backed up configuration files. Also we should deploy backed up java web application. We should configure the application to use RDS Database instance and Dynamodb.
 
-10.create a Golden AMI from the above EC2 instance and then terminate the instance.
+10.create a Golden AMI from the above EC2 instance and then terminate the instance. 
 
 11. Create an IAM role of service type EC2 that allows access to services like Dyanmodb, SQS and other AWS services. Also create a security group that allows access to RDS instances.
 
