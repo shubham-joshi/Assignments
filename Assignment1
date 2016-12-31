@@ -62,7 +62,7 @@ RUN cd /tmp;mv apache-tomcat-7.0.73 /opt/tomcat7
 RUN chmod -R 755 /opt/tomcat7
 ENV JAVA_HOME /opt/jdk1.7.0_55
 
-Expose port 8080 from the container to the host 
+# Expose port 8080 from the container to the host 
 EXPOSE 8080 
 CMD /opt/tomcat7/bin/catalina.sh run
 
