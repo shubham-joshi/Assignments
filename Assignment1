@@ -70,4 +70,4 @@ CMD /opt/tomcat7/bin/catalina.sh run
 docker build -t py-mongo-tomcat .
 
 #docker command to run container from above image
-docker run -p 8080:7080 py-mongo-tomcat:latest
+docker run -p 7080:8080 py-mongo-tomcat:latest
